@@ -1,0 +1,8 @@
+<h2>Mesas Disponibles</h2>
+
+<div *ngFor="let mesa of mesas">
+  <button [disabled]="mesa.estado === 'ocupada'" (click)="atenderMesa(mesa)">
+    Mesa {{ mesa.numero }} - {{ mesa.estado }}
+  </button>
+</div>
+

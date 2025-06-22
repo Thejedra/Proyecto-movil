@@ -1,0 +1,39 @@
+<h2>Gestión del Menú</h2>
+
+<form (ngSubmit)="guardar()">
+  <label>Nombre:</label>
+  <input type="text" [(ngModel)]="platillo.nombre" name="nombre" required />
+
+  <label>Precio:</label>
+  <input type="number" [(ngModel)]="platillo.precio" name="precio" required />
+
+  <label>Descripción:</label>
+  <input type="text" [(ngModel)]="platillo.descripcion" name="descripcion" />
+
+  <button type="submit">{{ editando ? 'Actualizar' : 'Agregar' }}</button>
+  <button type="button" (click)="limpiar()">Limpiar</button>
+</form>
+
+<hr />
+
+<table border="1" width="100%">
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Precio</th>
+      <th>Descripción</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let p of menu">
+      <td>{{ p.nombre }}</td>
+      <td>${{ p.precio }}</td>
+      <td>{{ p.descripcion }}</td>
+      <td>
+        <button (click)="editar(p)">Editar</button>
+        <button (click)="eliminar(p.id)">Eliminar</button>
+      </td>
+    </tr>
+  </tbody>
+</table>

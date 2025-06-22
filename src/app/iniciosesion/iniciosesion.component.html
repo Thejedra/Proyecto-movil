@@ -1,0 +1,17 @@
+<div class="login-container">
+  <h2>Inicio de Sesión</h2>
+
+  <form (ngSubmit)="iniciarSesion()">
+    <label for="usuario">Usuario:</label>
+    <input id="usuario" [(ngModel)]="usuario" name="usuario" required>
+
+    <label for="rol">Rol:</label>
+    <select id="rol" [(ngModel)]="rol" name="rol" required>
+      <option value="">Seleccione</option>
+      <option value="mesero">Mesero</option>
+      <option value="gerente">Gerente</option>
+    </select>
+
+    <button type="submit">Entrar</button>
+  </form>
+</div>

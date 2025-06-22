@@ -1,0 +1,44 @@
+<h2>Gestión de Mesas</h2>
+
+<!-- Formulario -->
+<form (ngSubmit)="guardarMesa()">
+  <label for="numero">Número de Mesa:</label>
+  <input type="number" [(ngModel)]="nuevaMesa.numero" name="numero" required min="1" />
+
+  <label for="estado">Estado:</label>
+  <select [(ngModel)]="nuevaMesa.estado" name="estado">
+    <option value="libre">Libre</option>
+    <option value="ocupada">Ocupada</option>
+  </select>
+
+  <button type="submit">{{ editando ? 'Actualizar' : 'Guardar' }}</button>
+  <button type="button" (click)="cancelarEdicion()" *ngIf="editando">Cancelar</button>
+</form>
+
+<hr />
+
+<!-- Tabla de Mesas -->
+<table border="1" cellpadding="8" cellspacing="0">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Estado</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let mesa of mesas">
+      <td>{{ mesa.numero }}</td>
+      <td>{{ mesa.estado }}</td>
+      <td>
+        <button (click)="editarMesa(mesa)">Editar</button>
+        <button (click)="eliminarMesa(mesa._id)">Eliminar</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Sin datos -->
+<div *ngIf="mesas.length === 0">
+  <p>No hay mesas registradas aún.</p>
+</div>

@@ -1,0 +1,49 @@
+<h2>Punto de Venta - Mesero</h2>
+
+<!-- Selección de mesa -->
+<div *ngIf="!mesaSeleccionada">
+  <h3>Seleccione una mesa:</h3>
+  <div *ngFor="let mesa of mesas">
+    <button 
+      [disabled]="mesa.estado === 'ocupada'" 
+      (click)="seleccionarMesa(mesa)">
+      Mesa {{ mesa.numero }} - {{ mesa.estado }}
+    </button>
+  </div>
+</div>
+
+<!-- Vista de pedido -->
+<div *ngIf="mesaSeleccionada">
+  <h3>Mesa #{{ mesaSeleccionada.numero }}</h3>
+
+  <h4>Menú</h4>
+  <div *ngFor="let item of menu">
+    {{ item.nombre }} - ${{ item.precio }}
+    <input type="number" [(ngModel)]="item.cantidad" min="1" />
+    <button (click)="agregarAlPedido(item)">Agregar</button>
+  </div>
+
+  <hr />
+
+  <h4>Pedido actual</h4>
+  <ul>
+    <li *ngFor="let p of pedido; let i = index">
+      {{ p.nombre }} x{{ p.cantidad }} - ${{ p.precio * p.cantidad }}
+      <button (click)="eliminarItem(i)">Quitar</button>
+    </li>
+  </ul>
+
+  <div *ngIf="pedido.length > 0 && !finalizado">
+    <button (click)="finalizarPedido()">Finalizar Pedido</button>
+  </div>
+
+  <!-- Propina -->
+  <div *ngIf="finalizado">
+    <label>Propina: $</label>
+    <input type="number" [(ngModel)]="propina" min="0" />
+
+    <h4>Total sin propina: ${{ totalSinPropina() }}</h4>
+    <h3>Total con propina: ${{ totalConPropina() }}</h3>
+    <button (click)="limpiar()">Nueva Mesa</button>
+  </div>
+</div>

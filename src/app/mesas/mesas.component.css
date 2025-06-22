@@ -1,0 +1,29 @@
+.contenedor-mesas {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.lista-mesas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.mesa {
+  border: 2px solid #ccc;
+  padding: 12px;
+  width: 150px;
+  text-align: center;
+  border-radius: 8px;
+}
+
+.mesa-libre {
+  background-color: #e0ffe0;
+  border-color: #66cc66;
+}
+
+.mesa-ocupada {
+  background-color: #ffe0e0;
+  border-color: #cc6666;
+}

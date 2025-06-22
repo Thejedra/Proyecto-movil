@@ -1,0 +1,11 @@
+.admin-nav {
+  display: flex;
+  gap: 1rem;
+  background-color: #f4f4f4;
+  padding: 1rem;
+}
+a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+}

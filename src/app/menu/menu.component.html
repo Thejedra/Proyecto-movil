@@ -1,0 +1,20 @@
+<div class="menu-container">
+  <h2>Menú</h2>
+
+  <ul class="menu-list">
+    <li *ngFor="let platillo of platillos">
+      {{ platillo.nombre }} - ${{ platillo.precio }}
+      <button (click)="agregarAlCarrito(platillo)">Agregar</button>
+    </li>
+  </ul>
+
+  <h3>Carrito</h3>
+  <ul class="carrito-list">
+    <li *ngFor="let item of carrito; let i = index">
+      {{ item.nombre }} - ${{ item.precio }}
+      <button (click)="quitarDelCarrito(i)">Quitar</button>
+    </li>
+  </ul>
+
+  <button [disabled]="carrito.length === 0" (click)="enviarPedido()">Enviar Pedido</button>
+</div>

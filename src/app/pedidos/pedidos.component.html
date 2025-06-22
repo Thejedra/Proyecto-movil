@@ -1,0 +1,30 @@
+<div class="pedidos-container">
+  <h2>Tomar Pedido</h2>
+
+  <label>Mesa:</label>
+  <input type="text" [(ngModel)]="pedido.mesa" required />
+
+  <label>Mesero:</label>
+  <input type="text" [(ngModel)]="pedido.mesero" required />
+
+  <label>Cantidad:</label>
+  <input type="number" [(ngModel)]="pedido.cantidad" min="1" />
+
+  <h3>Menú</h3>
+  <ul>
+    <li *ngFor="let platillo of platillos">
+      {{ platillo.nombre }} - ${{ platillo.precio }}
+      <button (click)="agregarItem(platillo)">Agregar</button>
+    </li>
+  </ul>
+
+  <h3>Pedido Actual</h3>
+  <ul>
+    <li *ngFor="let item of pedido.items; let i = index">
+      {{ item.nombre }} x {{ item.cantidad }}
+      <button (click)="quitarItem(i)">Quitar</button>
+    </li>
+  </ul>
+
+  <button (click)="enviarPedido()" [disabled]="pedido.items.length === 0">Enviar Pedido</button>
+</div>

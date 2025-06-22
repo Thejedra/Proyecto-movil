@@ -1,0 +1,9 @@
+<div class="contenedor-mesas">
+  <h2>Listado de Mesas</h2>
+
+  <div class="mesa" *ngFor="let mesa of mesas">
+    <p><strong>Mesa {{ mesa.numero }}</strong></p>
+    <p>Estado: {{ mesa.estado }}</p>
+    <button (click)="verEstado(mesa)">Ver Detalle</button>
+  </div>
+</div>

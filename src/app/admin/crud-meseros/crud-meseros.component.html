@@ -1,0 +1,34 @@
+<h2>Gestión de Meseros</h2>
+
+<form (ngSubmit)="guardar()">
+  <label>Nombre:</label>
+  <input type="text" [(ngModel)]="mesero.nombre" name="nombre" required />
+
+  <label>Correo:</label>
+  <input type="email" [(ngModel)]="mesero.correo" name="correo" required />
+
+  <button type="submit">{{ editando ? 'Actualizar' : 'Agregar' }}</button>
+  <button type="button" (click)="limpiar()">Limpiar</button>
+</form>
+
+<hr />
+
+<table border="1" width="100%">
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Correo</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let m of meseros">
+      <td>{{ m.nombre }}</td>
+      <td>{{ m.correo }}</td>
+      <td>
+        <button (click)="editar(m)">Editar</button>
+        <button (click)="eliminar(m.id)">Eliminar</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
