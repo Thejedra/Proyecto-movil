@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MesaService } from '../servicios/mesa.service'; // ⬅️ Importa el servicio
+import { MesaService } from '../servicios/mesa.service'; 
 
 interface Item {
   id: number;

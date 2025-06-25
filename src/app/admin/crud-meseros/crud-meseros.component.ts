@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { MeseroService } from '../../servicios/mesero.service'; 
 
 interface Mesero {
-  id: number;
+  _id?: string;
   nombre: string;
   correo: string;
 }
@@ -15,22 +16,35 @@ interface Mesero {
   templateUrl: './crud-meseros.component.html',
   styleUrl: './crud-meseros.component.css'
 })
-export class CrudMeserosComponent {
+export class CrudMeserosComponent implements OnInit {
   meseros: Mesero[] = [];
-  mesero: Mesero = { id: 0, nombre: '', correo: '' };
+  mesero: Mesero = { nombre: '', correo: '' };
   editando = false;
 
+  constructor(private meseroService: MeseroService) {}
+
+  ngOnInit(): void {
+    this.cargarMeseros();
+  }
+
+  cargarMeseros() {
+    this.meseroService.getMeseros().subscribe((data: Mesero[]) => {
+      this.meseros = data;
+    });
+  }
+
   guardar() {
-    if (this.editando) {
-      const index = this.meseros.findIndex(m => m.id === this.mesero.id);
-      if (index !== -1) {
-        this.meseros[index] = { ...this.mesero };
-      }
+    if (this.editando && this.mesero._id) {
+      this.meseroService.actualizarMesero(this.mesero._id, this.mesero).subscribe(() => {
+        this.cargarMeseros();
+        this.limpiar();
+      });
     } else {
-      this.mesero.id = Date.now();
-      this.meseros.push({ ...this.mesero });
+      this.meseroService.crearMesero(this.mesero).subscribe(() => {
+        this.cargarMeseros();
+        this.limpiar();
+      });
     }
-    this.limpiar();
   }
 
   editar(m: Mesero) {
@@ -38,13 +52,14 @@ export class CrudMeserosComponent {
     this.editando = true;
   }
 
-  eliminar(id: number) {
-    this.meseros = this.meseros.filter(m => m.id !== id);
-    this.limpiar();
+  eliminar(id: string) {
+    this.meseroService.eliminarMesero(id).subscribe(() => {
+      this.cargarMeseros();
+    });
   }
 
   limpiar() {
-    this.mesero = { id: 0, nombre: '', correo: '' };
+    this.mesero = { nombre: '', correo: '' };
     this.editando = false;
   }
 }

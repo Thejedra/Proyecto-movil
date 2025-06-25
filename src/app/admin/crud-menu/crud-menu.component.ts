@@ -1,35 +1,53 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { MenuService } from '../../servicios/menu.service';
 
 interface Platillo {
-  id: number;
+  _id?: string;
   nombre: string;
   precio: number;
   descripcion: string;
+  disponible?: boolean;
 }
 
 @Component({
   selector: 'app-crud-menu',
   standalone: true,
   imports: [CommonModule, FormsModule],
+  providers: [MenuService], // necesario para standalone
   templateUrl: './crud-menu.component.html',
   styleUrl: './crud-menu.component.css'
 })
-export class CrudMenuComponent {
+export class CrudMenuComponent implements OnInit {
   menu: Platillo[] = [];
-  platillo: Platillo = { id: 0, nombre: '', precio: 0, descripcion: '' };
+  platillo: Platillo = { nombre: '', precio: 0, descripcion: '', disponible: true };
   editando = false;
 
+  constructor(private menuService: MenuService) {}
+
+  ngOnInit(): void {
+    this.cargarMenu();
+  }
+
+  cargarMenu() {
+    this.menuService.getMenu().subscribe((data: Platillo[]) => {
+      this.menu = data;
+    });
+  }
+
   guardar() {
-    if (this.editando) {
-      const i = this.menu.findIndex(p => p.id === this.platillo.id);
-      if (i !== -1) this.menu[i] = { ...this.platillo };
+    if (this.editando && this.platillo._id) {
+      this.menuService.actualizarPlatillo(this.platillo._id, this.platillo).subscribe(() => {
+        this.cargarMenu();
+        this.limpiar();
+      });
     } else {
-      this.platillo.id = Date.now();
-      this.menu.push({ ...this.platillo });
+      this.menuService.crearPlatillo(this.platillo).subscribe(() => {
+        this.cargarMenu();
+        this.limpiar();
+      });
     }
-    this.limpiar();
   }
 
   editar(p: Platillo) {
@@ -37,13 +55,14 @@ export class CrudMenuComponent {
     this.editando = true;
   }
 
-  eliminar(id: number) {
-    this.menu = this.menu.filter(p => p.id !== id);
-    this.limpiar();
+  eliminar(id: string) {
+    this.menuService.eliminarPlatillo(id).subscribe(() => {
+      this.cargarMenu();
+    });
   }
 
   limpiar() {
-    this.platillo = { id: 0, nombre: '', precio: 0, descripcion: '' };
+    this.platillo = { nombre: '', precio: 0, descripcion: '', disponible: true };
     this.editando = false;
   }
 }

@@ -1,20 +1,46 @@
+<app-navegacion></app-navegacion>
+
 <div class="menu-container">
-  <h2>Menú</h2>
+  <h2>Menú del Restaurante</h2>
 
-  <ul class="menu-list">
-    <li *ngFor="let platillo of platillos">
-      {{ platillo.nombre }} - ${{ platillo.precio }}
+  <div class="form-selectores">
+    <label>Mesa:</label>
+    <select [(ngModel)]="mesa">
+      <option value="" disabled selected>Seleccione una mesa</option>
+      <option *ngFor="let m of mesas" [value]="m.numero">Mesa {{ m.numero }}</option>
+    </select>
+
+    <label>Mesero:</label>
+    <select [(ngModel)]="mesero">
+      <option value="" disabled selected>Seleccione un mesero</option>
+      <option *ngFor="let me of meseros" [value]="me.nombre">{{ me.nombre }}</option>
+    </select>
+  </div>
+
+  <div class="platillos-grid">
+    <div class="platillo-card" *ngFor="let platillo of platillos">
+      <h3>{{ platillo.nombre }}</h3>
+      <p>{{ platillo.descripcion }}</p>
+      <p><strong>${{ platillo.precio }}</strong></p>
       <button (click)="agregarAlCarrito(platillo)">Agregar</button>
-    </li>
-  </ul>
+    </div>
+  </div>
 
-  <h3>Carrito</h3>
-  <ul class="carrito-list">
-    <li *ngFor="let item of carrito; let i = index">
-      {{ item.nombre }} - ${{ item.precio }}
-      <button (click)="quitarDelCarrito(i)">Quitar</button>
-    </li>
-  </ul>
+  <div class="carrito">
+    <h3>Carrito</h3>
+    <ul>
+      <li *ngFor="let item of carrito; let i = index">
+        {{ item.nombre }} - ${{ item.precio }} x {{ item.cantidad }}
+        <button (click)="quitarDelCarrito(i)">Quitar</button>
+      </li>
+    </ul>
 
-  <button [disabled]="carrito.length === 0" (click)="enviarPedido()">Enviar Pedido</button>
+    <p *ngIf="carrito.length > 0"><strong>Total:</strong> ${{ total }}</p>
+    <p *ngIf="carrito.length > 0"><strong>Artículos:</strong> {{ totalArticulos }}</p>
+
+    <button class="btn-enviar"
+      [disabled]="carrito.length === 0 || !mesa || !mesero"
+      (click)="enviarPedido()">Enviar Pedido</button>
+  </div>
 </div>
+ 

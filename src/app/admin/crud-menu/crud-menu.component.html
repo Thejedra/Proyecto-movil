@@ -32,7 +32,8 @@
       <td>{{ p.descripcion }}</td>
       <td>
         <button (click)="editar(p)">Editar</button>
-        <button (click)="eliminar(p.id)">Eliminar</button>
+     <button (click)="eliminar(p._id!)">Eliminar</button>
+
       </td>
     </tr>
   </tbody>

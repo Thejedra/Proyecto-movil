@@ -1,30 +1,25 @@
+<app-navegacion></app-navegacion>
 <div class="pedidos-container">
-  <h2>Tomar Pedido</h2>
+  <h2>Pedidos Realizados</h2>
 
-  <label>Mesa:</label>
-  <input type="text" [(ngModel)]="pedido.mesa" required />
+  <div *ngIf="pedidos.length === 0">
+    <p>No hay pedidos aún.</p>
+  </div>
 
-  <label>Mesero:</label>
-  <input type="text" [(ngModel)]="pedido.mesero" required />
+  <div *ngFor="let pedido of pedidos" class="pedido-card">
+    <h3>Mesa {{ pedido.mesa }}</h3>
+    <p><strong>Mesero:</strong> {{ pedido.mesero }}</p>
+    <p><strong>Total:</strong> ${{ pedido.total }}</p>
+    <p><strong>Cantidad de artículos:</strong> {{ pedido.cantidad }}</p>
 
-  <label>Cantidad:</label>
-  <input type="number" [(ngModel)]="pedido.cantidad" min="1" />
+    <ul>
+      <li *ngFor="let item of pedido.items">
+        {{ item.nombre }} - ${{ item.precio }}
+      </li>
+    </ul>
 
-  <h3>Menú</h3>
-  <ul>
-    <li *ngFor="let platillo of platillos">
-      {{ platillo.nombre }} - ${{ platillo.precio }}
-      <button (click)="agregarItem(platillo)">Agregar</button>
-    </li>
-  </ul>
+    <button (click)="eliminarPedido(pedido._id)">Eliminar</button>
 
-  <h3>Pedido Actual</h3>
-  <ul>
-    <li *ngFor="let item of pedido.items; let i = index">
-      {{ item.nombre }} x {{ item.cantidad }}
-      <button (click)="quitarItem(i)">Quitar</button>
-    </li>
-  </ul>
-
-  <button (click)="enviarPedido()" [disabled]="pedido.items.length === 0">Enviar Pedido</button>
+    <hr />
+  </div>
 </div>

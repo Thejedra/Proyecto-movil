@@ -1,8 +1,8 @@
-<h2>Mesas Disponibles</h2>
+<app-navegacion></app-navegacion>
+<h2>Seleccionate para comenzar</h2>
 
-<div *ngFor="let mesa of mesas">
-  <button [disabled]="mesa.estado === 'ocupada'" (click)="atenderMesa(mesa)">
-    Mesa {{ mesa.numero }} - {{ mesa.estado }}
+<div *ngFor="let mesero of meseros">
+  <button (click)="seleccionarMesero(mesero)">
+    👨‍🍳 {{ mesero.nombre }}
   </button>
 </div>
-
