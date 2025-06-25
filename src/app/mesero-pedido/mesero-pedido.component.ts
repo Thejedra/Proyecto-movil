@@ -72,7 +72,7 @@ export class MeseroPedidoComponent {
     this.finalizado = true;
 
     if (this.mesaSeleccionada) {
-      this.mesaService.updateEstadoMesa(this.mesaSeleccionada._id, 'ocupada').subscribe({
+      this.mesaService.actualizarMesa(this.mesaSeleccionada._id, 'ocupada').subscribe({
         next: res => {
           console.log(' Mesa actualizada a ocupada', res);
           this.cargarMesas(); // recargar estado actualizado
